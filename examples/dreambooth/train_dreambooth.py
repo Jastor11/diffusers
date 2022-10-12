@@ -235,7 +235,9 @@ class DreamBoothDataset(Dataset):
         if class_data_root is not None:
             self.class_data_root = Path(class_data_root)
             self.class_data_root.mkdir(parents=True, exist_ok=True)
-            self.class_images_path = list(self.class_data_root.iterdir())
+            class_img_paths = [p for p in list(Path(class_data_root).iterdir()) if not str(p).startswith(".")]
+            self.class_images_path = class_img_paths
+            #self.class_images_path = list(Path(class_data_root).iterdir())
             self.num_class_images = len(self.class_images_path)
             self._length = max(self.num_class_images, self.num_instance_images)
             self.class_prompt = class_prompt
